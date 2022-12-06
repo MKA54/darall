@@ -1,0 +1,77 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  {% verbatim %}
+    <div id="dish" v-cloak xmlns="http://www.w3.org/1999/html">
+        <div class="mb-2">
+            <a href="/">Вернуться на главную страницу</a>
+        </div>
+
+        <h2 class="mb-4">Добавить блюдо</h2>
+
+        <form class="mb-4 needs-validation" novalidate ref="inputForm">
+          <div class="form-row no-gutters">
+              <div class="col-lg-6">
+                  <div class="form-group">
+                       <label>Категория блюда</label>
+                       <input v-model.trim="category"
+                              type="text"
+                              class="form-control"
+                              placeholder="Введите категорию"
+                              required />
+                       <div class="invalid-feedback">
+                        Введите категорию.
+                       </div>
+                  </div>
+                  <div class="form-group">
+                       <label>Название блюда</label>
+                       <input v-model.trim="name"
+                              type="text"
+                              class="form-control"
+                              placeholder="Введите название блюда"
+                              required />
+                       <div class="invalid-feedback">
+                        Введите название блюда.
+                       </div>
+                   </div>
+                  <div class="form-group">
+                       <label>Цена блюда</label>
+                       <input v-model.trim="price"
+                              type="text"
+                              class="form-control"
+                              placeholder="Введите цену"
+                              pattern="^[0-9]+$"
+                              required />
+                       <div class="invalid-feedback" ref="errorPrice"></div>
+                  </div>
+                  <div class="form-group">
+                       <label>Вес блюда</label>
+                       <input v-model.trim="weight"
+                              type="text"
+                              class="form-control"
+                              placeholder="Введите вес блюда"
+                              pattern="^[0-9]+$"
+                              required />
+                       <div class="invalid-feedback" ref="errorWeight"></div>
+                  </div>
+                  <div class="form-group">
+                       <label>Добавить изображение</label>
+                       <input type="file"
+                              ref="file"
+                              id="file"
+                              class="form-control-file"
+                              accept="image/*"
+                              v-on:change="handleFileUpload()"
+                              required />
+                        <div class="invalid-feedback">
+                            Файл не выбран.
+                        </div>
+                  </div>
+
+                  <button @click="addDish" class="btn btn-primary mt-3" type="button">Добавить блюдо</button>
+              </div>
+          </div>
+      </form>
+    </div>
+  {% endverbatim %}
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    {% verbatim %}
+      <div id="menu" v-cloak class="container-fluid">
+                    <h1 class="mb-4">Ресторанное меню</h1>
+
+                    <div class="mb-2">
+                    <a href="/dish">Форма для добавления блюда</a>
+                    </div>
+
+            <menu-list></menu-list>
+      </div>
+
+        <script id="menu-list-template" type="text/x-template">
+           <form class="mb-4 needs-validation" novalidate ref="dish">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Категория</th>
+                            <th>Наименование блюда</th>
+                            <th>Цена</th>
+                            <th>Выход блюда (г.)</th>
+                            <th>Изображение блюда</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <menu-list-dish
+                                v-for="(dish, index) in menu" :key="dish.id"
+                                :dish="dish"
+                                :index="index"
+                                @save-dish="saveDish"
+                                :key="dish.id">
+                        </menu-list-dish>
+                    </tbody>
+                </table>
+           </form>
+        </script>
+
+        <script id="menu-list-dish-template" type="text/x-template">
+           <tr>
+            <template v-if="isEditing">
+                    <td>{{ index + 1 }}.</td>
+                    <td>
+                        <div>
+                            <input v-model.trim="editCategory"
+                                   class="form-control"
+                                   type="text"
+                                   placeholder="Ввести категорию блюда"
+                                   required />
+                            <div class="invalid-feedback">
+                                Введите категорию блюда.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input v-model.trim="editName"
+                                       class="form-control"
+                                       type="text"
+                                       placeholder="Ввести название блюда"
+                                       required />
+                            <div class="invalid-feedback">
+                                Введите название блюда.
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input v-model.trim="editPrice"
+                                       class="form-control"
+                                       type="text"
+                                       placeholder="Ввести цену блюда"
+                                       pattern="^[0-9]+$"
+                                       required />
+                            <div class="invalid-feedback">Цена указана некорректно</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                           <input v-model.trim="editWeight"
+                                  class="form-control"
+                                  type="text"
+                                  placeholder="Ввести вес блюда"
+                                  pattern="^[0-9]+$"
+                                  required />
+                           <div class="invalid-feedback">Вес указан некорректно</div>
+                        </div>
+                    </td>
+                    <td>
+                        <img :src='dish.image'
+                         alt="Изображение блюда"
+                         height=100 width=110 />
+                    </td>
+                    <td>
+                        <div class="mr-2 mt-2">
+                            <button @click="saveDish" class="btn btn-success" type="button">Сохранить</button>
+                        </div>
+                        <div class="mr-2 mt-2">
+                            <button @click="stopEditDish" class="btn btn-warning" type="button">Отменить</button>
+                        </div>
+                     </td>
+            </template>
+            <template v-else>
+                    <td>{{ index + 1 }}.</td>
+                    <td>{{ dish.category }}</td>
+                    <td>{{ dish.name }}</td>
+                    <td>{{ dish.price }}</td>
+                    <td>{{ dish.weight }}</td>
+                    <td>
+                        <img :src='dish.image'
+                         alt="Изображение блюда"
+                         height=100 width=110 />
+                    </td>
+                     <td>
+                        <button @click="startEditItem" class="btn btn-warning" type="button">Редактировать</button>
+                     </td>
+            </template>
+           </tr>
+        </script>
+  {% endverbatim %}
+{% endblock %}

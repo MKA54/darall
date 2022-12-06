@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model menu {
+  id       BigInt  @id @default(autoincrement())
+  category String  @db.VarChar(100)
+  name     String  @db.VarChar(100)
+  price    Decimal @db.Decimal
+  weight   Decimal @db.Decimal
+  image    String  @db.VarChar
+
+  @@map("menu")
+}
+
+model authorization {
+  id       BigInt @id @default(autoincrement())
+  email    String
+  password String
+
+  @@map(" authorization")
+}
